@@ -7,16 +7,18 @@ var styles = StyleSheet.create({
   line: {
     'position': 'relative',
     'left': '10%',
-    'top': '5%',
+    'top': 10,
     'marginLeft': 29,
     'marginTop': '10%',
     'width': 6,
-    'height': 600,
+    'height': 1200,
     'backgroundColor': 'black'
   },
   box1: {
     'position': 'relative',
-    'top': '30%',
+    'marginBottom': 64,
+    // 'marginTop': '-315%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -28,7 +30,9 @@ var styles = StyleSheet.create({
   },
   box2: {
     'position': 'relative',
-    'top': '40%',
+    'marginBottom': 64,
+    // 'top': '-50%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -40,7 +44,9 @@ var styles = StyleSheet.create({
   },
   box3: {
     'position': 'relative',
-    'top': '50%',
+    'marginBottom': 64,
+    // 'top': '-40%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -52,7 +58,9 @@ var styles = StyleSheet.create({
   },
   box4: {
     'position': 'relative',
-    'top': '60%',
+    'marginBottom': 64,
+    // 'top': '-30%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -64,7 +72,9 @@ var styles = StyleSheet.create({
   },
   box5: {
     'position': 'relative',
-    'top': '70%',
+    'marginBottom': 64,
+    // 'top': '-20%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -76,7 +86,9 @@ var styles = StyleSheet.create({
   },
   box6: {
     'position': 'relative',
-    'top': '80%',
+    'marginBottom': 64,
+    // 'top': '-10%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -88,7 +100,9 @@ var styles = StyleSheet.create({
   },
   box7: {
     'position': 'relative',
-    'top': '90%',
+    'marginBottom': 64,
+    // 'top': '0%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -100,7 +114,9 @@ var styles = StyleSheet.create({
   },
   box8: {
     'position': 'relative',
-    'top': '100%',
+    'marginBottom': 64,
+    // 'top': '10%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -112,7 +128,9 @@ var styles = StyleSheet.create({
   },
   box9: {
     'position': 'relative',
-    'top': '110%',
+    'marginBottom': 64,
+    // 'top': '20%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -124,7 +142,9 @@ var styles = StyleSheet.create({
   },
   box10: {
     'position': 'relative',
-    'top': '120%',
+    'marginBottom': 64,
+    // 'top': '30%',
+    'top': -1200,
     'left': '10%',
     'width': 64,
     'height': 64,
@@ -142,11 +162,12 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   container:{
-    'top': '20%',
-    'left': '10%',
-    'height': 1000,
+    'top': 200,
+    'left': 25,
+    // 'marginBottom': 100,
+    'height': 1500,
     'backgroundColor': 'yellow',
-    'width': 100  
+    'width': 100
     // 'flex': 1,
     // 'justifyContent': 'center',
     // 'backgroundColor': 'blue'
@@ -177,12 +198,13 @@ export default class Timeline extends Component {
   }
 
 
-
-
+// contentContainerStyle={styles.container}
+// {/* <ScrollView > */}
+// </ScrollView>
   render() {
     return (
-      <View>
-        <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
+
           <View style={styles.line}>
           </View>
           <TouchableHighlight style={styles.box1} onPress={() => this.postData() }>
@@ -190,8 +212,10 @@ export default class Timeline extends Component {
             </View>
           </TouchableHighlight>
 
-          <View style={styles.box2} onPress={() => { Alert.alert('You tapped dot 2!')}}>
-          </View>
+          <TouchableHighlight style={styles.box2} onPress={() => { Alert.alert('You tapped dot 2!')}}>
+            <View >
+            </View>
+          </TouchableHighlight>
           <View style={styles.box3} onPress={() => { Alert.alert('You tapped dot 3!')}}>
           </View>
           <View style={styles.box4} onPress={() => { Alert.alert('You tapped dot 4!')}}>
@@ -211,7 +235,7 @@ export default class Timeline extends Component {
 
 
 
-        </ScrollView>
+
       </View>
     );
   }

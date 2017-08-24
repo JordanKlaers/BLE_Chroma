@@ -9,7 +9,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.position}>
         <ScrollView contentContainerStyle={styles.container}>
-          <Timeline></Timeline>
+          <Timeline style={styles.time}></Timeline>
 
         </ScrollView>
       </View>
@@ -23,19 +23,20 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: '150%'
+    // height: '150%'
     // flex: 1,
     // backgroundColor: 'blue',
     // alignItems: 'center',
     // justifyContent: 'center',
   },
-  box: {
+  time: {
+    'top': 600,
+
     // 'position': 'absolute',
     // 'marginLeft': '50%',
-    // 'marginTop': '40%',
-    // 'width': 300,
-    // 'height': 300,
-    // 'backgroundColor': 'black'
+    'width': 300,
+    'height': 300,
+    'backgroundColor': 'black'
   },
   position: {
     'position': 'relative'
