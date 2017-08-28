@@ -53,7 +53,7 @@ export default class App extends React.Component {
   }
 
   colorSelect = (currentColor)=>{
-    console.log(currentColor);
+    console.log(currentColor, this.theState.timelineSelect.index, "the indexxxxxxxx" );
     this.theState.timelineSelect.bool = !this.theState.timelineSelect.bool;
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
     this.setState(this.theState, function(){
@@ -66,7 +66,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.position}>
         <ScrollView contentContainerStyle={styles.container}>
-          <Timeline timelineSelectfunction={this.timelineSelectfunction}></Timeline>
+          <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
           <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect}></ColorPicker>
         </ScrollView>
       </View>

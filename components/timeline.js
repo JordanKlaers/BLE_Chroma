@@ -199,44 +199,194 @@ export default class Timeline extends Component {
   }
 
 
-// contentContainerStyle={styles.container}
-// {/* <ScrollView > */}
-// </ScrollView>
+
   render() {
+    console.log(this.props.colors);
+    var dynamicStyle = {
+      one: {'position': 'relative',
+      'marginBottom': 64,
+      // 'marginTop': '-315%',
+      'top': -1200,
+      'left': '10%',
+      'width': 64,
+      'height': 64,
+      'backgroundColor': this.props.colors[0] || "white",
+      "borderRadius": 32,
+      'borderColor': 'black',
+      'borderWidth': 3,
+      'zIndex': 3},
+      two: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '-50%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[1] || "white",
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      three: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '-40%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[2] || "white",
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      four: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '-30%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[3] || 'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      five: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '-20%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[4] ||'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      six: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '-10%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[5] ||'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      seven: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '0%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[6]||'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      eight: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '10%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[7] ||'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      nine: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '20%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[8] || 'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
+      ten: {
+        'position': 'relative',
+        'marginBottom': 64,
+        // 'top': '30%',
+        'top': -1200,
+        'left': '10%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor':  this.props.colors[9] || 'white',
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      }
+    }
+
     return (
       <View style={styles.container}>
-
           <View style={styles.line}>
           </View>
-          <TouchableHighlight style={styles.box1} onPress={() => this.props.timelineSelectfunction(0) }>
+          <TouchableHighlight style={dynamicStyle.one} onPress={() => this.props.timelineSelectfunction(0) }>
             <View >
             </View>
           </TouchableHighlight>
-
-          <TouchableHighlight style={styles.box2} onPress={() => { Alert.alert('You tapped dot 2!')}}>
+          <TouchableHighlight style={dynamicStyle.two} onPress={() => this.props.timelineSelectfunction(1) }>
             <View >
             </View>
           </TouchableHighlight>
-          <View style={styles.box3} onPress={() => { Alert.alert('You tapped dot 3!')}}>
-          </View>
-          <View style={styles.box4} onPress={() => { Alert.alert('You tapped dot 4!')}}>
-          </View>
-          <View style={styles.box5} onPress={() => { Alert.alert('You tapped dot 5!')}}>
-          </View>
-          <View style={styles.box6} onPress={() => { Alert.alert('You tapped dot 6!')}}>
-          </View>
-          <View style={styles.box7} onPress={() => { Alert.alert('You tapped dot 7!')}}>
-          </View>
-          <View style={styles.box8} onPress={() => { Alert.alert('You tapped dot 8!')}}>
-          </View>
-          <View style={styles.box9} onPress={() => { Alert.alert('You tapped dot 9!')}}>
-          </View>
-          <View style={styles.box10} onPress={() => { Alert.alert('You tapped dot 10!')}}>
-          </View>
-
-
-
-
+          <TouchableHighlight style={dynamicStyle.three} onPress={() => this.props.timelineSelectfunction(2) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.four} onPress={() => this.props.timelineSelectfunction(3) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.five} onPress={() => this.props.timelineSelectfunction(4) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.six} onPress={() => this.props.timelineSelectfunction(5) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.seven} onPress={() => this.props.timelineSelectfunction(6) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.eight} onPress={() => this.props.timelineSelectfunction(7) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.nine} onPress={() => this.props.timelineSelectfunction(8) }>
+            <View >
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={dynamicStyle.ten} onPress={() => this.props.timelineSelectfunction(9) }>
+            <View >
+            </View>
+          </TouchableHighlight>
       </View>
     );
   }
