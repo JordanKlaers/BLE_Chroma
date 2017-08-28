@@ -3,6 +3,7 @@ import React from 'react';
 import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert} from 'react-native';
 import Timeline from './components/timeline'
 import ColorPicker from './components/colorPicker.js';
+import Control from './components/control.js';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -65,10 +66,12 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.position}>
-        <ScrollView contentContainerStyle={styles.container}>
+        <Control>
+        </Control>
+
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
-          <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect}></ColorPicker>
-        </ScrollView>
+        
+        <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect}></ColorPicker>
       </View>
     );
   }
@@ -77,12 +80,10 @@ export default class App extends React.Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    // height: '150%'
-    // flex: 1,
-    // backgroundColor: 'blue',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+  contentContainer: {
+    'paddingVertical': 20,
+    // 'top': 100,
+    'marginTop': '10%'
   },
   position: {
     'position': 'relative'
