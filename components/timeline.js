@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import ColorPicker from './colorPicker.js';
 
 
 var styles = StyleSheet.create({
@@ -163,7 +164,7 @@ var styles = StyleSheet.create({
   },
   container:{
     'top': 200,
-    'left': 25,
+    'left': '7%',
     // 'marginBottom': 100,
     'height': 1500,
     'backgroundColor': 'yellow',
@@ -207,7 +208,7 @@ export default class Timeline extends Component {
 
           <View style={styles.line}>
           </View>
-          <TouchableHighlight style={styles.box1} onPress={() => this.postData() }>
+          <TouchableHighlight style={styles.box1} onPress={() => this.props.timelineSelectfunction(0) }>
             <View >
             </View>
           </TouchableHighlight>
