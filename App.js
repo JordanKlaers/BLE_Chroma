@@ -80,14 +80,19 @@ export default class App extends React.Component {
         let myRed = this.fill(pattern[i]['color']['r'], pattern[i+1]['color']['r'], pattern[i]['intervalTillNext']);
         let myGreen = this.fill(pattern[i]['color']['g'], pattern[i+1]['color']['g'], pattern[i]['intervalTillNext']);
         let myBlue = this.fill(pattern[i]['color']['b'], pattern[i+1]['color']['b'], pattern[i]['intervalTillNext']);
-        red = red.concat();
-        green = green.concat();
-        blue = blue.concat();
+        let normalized = this.normailzeFillColors(myRed, myGreen, myBlue);
+        red = red.concat(normalized.red);
+        green = green.concat(normalized.green);
+        blue = blue.concat(normalized.blue);
       }
       else {                                                //this is triggered only for the last color in the array - it loops back around to the start of the pattern
-        red = red.concat(this.fill(pattern[i]['color']['r'], pattern[0]['color']['r'], pattern[i]['intervalTillNext']));
-        green =  green.concat(this.fill(pattern[i]['color']['g'], pattern[0]['color']['g'], pattern[i]['intervalTillNext']));
-        blue = blue.concat(this.fill(pattern[i]['color']['b'], pattern[0]['color']['b'], pattern[i]['intervalTillNext']));
+        let myRed = this.fill(pattern[i]['color']['r'], pattern[0]['color']['r'], pattern[i]['intervalTillNext']);
+        let myGreen = this.fill(pattern[i]['color']['g'], pattern[0]['color']['g'], pattern[i]['intervalTillNext']);
+        let myBlue = this.fill(pattern[i]['color']['b'], pattern[0]['color']['b'], pattern[i]['intervalTillNext']);
+        let normalized = this.normailzeFillColors(myRed, myGreen, myBlue);
+        red = red.concat(normalized.red);
+        green = green.concat(normalized.green);
+        blue = blue.concat(normalized.blue);
 
       }
     }
@@ -95,20 +100,32 @@ export default class App extends React.Component {
   }
 
   normailzeFillColors = (red,green,blue)=>{
-    let nomalized = {
+    var normalized = {
       red: red,
       green: green,
       blue: blue
-    }
+    };
     if(red.length == 1){
       return normalized;
     }
     else{
       for (var i = 0; i < red.length-1; i++) {
-        let rgbFormat = "rgb(" + red[i] + "," + green[i] + "," + blue[i] + ")";
+
+        let rgbFormat = "rgb(" + red[i] + ", " + green[i] + ", " + blue[i] + ")";
         rgbFormat = tinycolor(rgbFormat);
+        let hslFormat = rgbFormat.toHsl();
+        delete hslFormat.a
+        hslFormat.s = 1;
+        hslFormat.l = 0.5;
+        hslFormat = tinycolor(hslFormat);
+        rgbFormat = hslFormat.toRgb()
+        delete rgbFormat.a;
+        normalized.red[i] = rgbFormat.r
+        normalized.green[i] = rgbFormat.g
+        normalized.blue[i] = rgbFormat.b
       }
     }
+    return normalized;
   }
 
 
