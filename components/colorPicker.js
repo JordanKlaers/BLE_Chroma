@@ -18,7 +18,7 @@ export default class ColorPicker extends Component {
       'position': 'absolute',
       'top': distanceFromTop,
 
-      'marginLeft': '35%',
+      'marginLeft': '45%',
       // 'marginTop': '-100%',
       'backgroundColor': 'white',
       'borderRadius': 32,

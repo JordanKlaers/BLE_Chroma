@@ -23,54 +23,40 @@ export default class Control extends Component {
       'borderColor': 'green',
       'borderWidth': 3,
       'width': '90%',
-      'height': 150,
+      'height': 155,
     },
     preview: {
       'position': 'absolute',
-      'width': '35%',
-      'height': 35,
-      'margin': '5%',
+      'width': '42%',
+      'height': 60,
+      'marginLeft': '4%',
+      // 'marginRight': '5%',
+      'marginTop': 10,
+      'backgroundColor': 'blue',
+      'borderRadius': 15,
+      'borderColor': 'black',
+      'borderWidth': 3
+    },
+    clear: {
+      'position': 'absolute',
+      'width': '41%',
+      'height': 60,
+      'marginLeft': '52%',
+      // 'marginRight': '5%',
+      'marginTop': 10,
+      'backgroundColor': 'red',
       'borderRadius': 15,
       'borderColor': 'black',
       'borderWidth': 3,
     },
-    clear: {
-      'position': 'absolute',
-      'width': '40%',
-      'height': 50,
-      'margin': '5%',
-      'marginLeft': '50%',
-      'borderRadius': 15,
-      'borderColor': 'black',
-      'borderWidth': 3
-    },
     upload: {
       'position': 'absolute',
-      'width': '90%',
-      'height': 50,
-      'margin': '5%',
+      'width': '92%',
+      'height': 60,
+      'marginLeft': '4%',
       'marginTop': 80,
       'borderRadius': 15,
       'borderColor': 'black',
-      'borderWidth': 3
-    },
-    blue: {
-      'height': 30,
-      'backgroundColor': "blue",
-      'margin': '7%'
-    },
-    sliderContainer: {
-      'height': 30,
-      'margin': '7%',
-      'borderRadius': 32,
-      'borderColor': 'white',
-      'borderWidth': 3
-    },
-    select:{
-      'height': 60,
-      'margin': '7%',
-      'borderRadius': 15,
-      'borderColor': 'white',
       'borderWidth': 3
     }
   });
@@ -85,18 +71,18 @@ export default class Control extends Component {
       return (
         <View style={this.styles.container}>
           <TouchableHighlight style={this.styles.preview}>
-            <View>
+
               <Text>
                 preview
               </Text>
-            </View>
+
           </TouchableHighlight>
           <TouchableHighlight style={this.styles.clear}>
-            <View>
+
               <Text>
                 Select
               </Text>
-            </View>
+
           </TouchableHighlight>
           <TouchableHighlight style={this.styles.upload}>
             <View>
