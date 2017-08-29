@@ -28,7 +28,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   container:{
-    'top': 50,
+    'top': 70,
     'left': '7%',
     'borderRadius': 15,
     'borderColor': 'black',

@@ -84,7 +84,7 @@ export default class Control extends Component {
               </Text>
 
           </TouchableHighlight>
-          <TouchableHighlight style={this.styles.upload}>
+          <TouchableHighlight style={this.styles.upload} onPress={() => this.props.upload() }>
             <View>
               <Text>
                 Select

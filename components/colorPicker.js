@@ -16,7 +16,7 @@ export default class ColorPicker extends Component {
   styles = StyleSheet.create({
     box: {
       'position': 'absolute',
-      'top': distanceFromTop,
+      'top': 220,
 
       'marginLeft': '45%',
       // 'marginTop': '-100%',
@@ -25,8 +25,8 @@ export default class ColorPicker extends Component {
       'borderColor': 'black',
       'borderWidth': 3,
       'width': '45%',
-      'height': 300,
-      'backgroundColor': 'black'
+      'height': 250,
+      // 'backgroundColor': 'black'
     },
     display: {
       'width': '86%',
@@ -56,14 +56,14 @@ export default class ColorPicker extends Component {
       'height': 30,
       'margin': '7%',
       'borderRadius': 32,
-      'borderColor': 'white',
+      'borderColor': 'black',
       'borderWidth': 3
     },
     select:{
       'height': 60,
       'margin': '7%',
       'borderRadius': 15,
-      'borderColor': 'white',
+      'borderColor': 'black',
       'borderWidth': 3
     },
     selectText: {
@@ -75,7 +75,7 @@ export default class ColorPicker extends Component {
 
   componentDidMount(){
 
-    console.log(this.props.currentColor)
+    // console.log(this.props.currentColor)
   }
   render() {
     const {currentColor} = this.props
@@ -94,7 +94,7 @@ export default class ColorPicker extends Component {
           <View style={this.styles.display, dynamicStyle}>
           </View>
           <View style={this.styles.sliderContainer}>
-            <Slider maximumValue={360} thumbTintColor={'white'} style={this.styles.red} onValueChange={(e)=>this.props.pickingAColor(e)}></Slider>
+            <Slider maximumValue={360} thumbTintColor={'black'} style={this.styles.red} onValueChange={(e)=>this.props.pickingAColor(e)}></Slider>
           </View>
           <TouchableHighlight onPress={() => this.props.colorSelect(currentColor) }>
             <View style={this.styles.select}>
