@@ -1,9 +1,10 @@
 import React from 'react';
 // import { StyleSheet, Text, View } from 'react-native';
-import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert} from 'react-native';
+import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert, Image} from 'react-native';
 import Timeline from './components/timeline'
 import ColorPicker from './components/colorPicker.js';
 import Control from './components/control.js';
+import Preview from './components/preview.js';
 var tinycolor = require('./tinycolor.js');
 
 export default class App extends React.Component {
@@ -20,16 +21,71 @@ export default class App extends React.Component {
       timelineSelect:{
         bool: false,
         index: 0
-      }
+      },
+      preview: false,
+      previewData: [null,null,null,null,null,null,null,null,null,null]
     };
   }
 
-  componentDidMount(){
-    // console.log('tinycolor',tinycolor);
+  theState = {
+    colorPicker: {
+      red: 0,
+      green: 0,
+      blue: 0
+    },
+    colorPicked : "hsl(0, 100%, 50%)",
+    pattern: [null,null,null,null,null,null,null,null,null,null],
+    timelineSelect:{
+      bool: false,
+      index: -1
+    },
+    preview: false,
+    previewData: [null,null,null,null,null,null,null,null,null,null]
   }
 
-  uploadColorPattern = ()=>{
-    this.fillEmptySpaces();                                    //the order of functions is : uploadColorPattern -> fillEmptySpaces -> buildColorString + fill -> patternToString + buildThreeDigits -> send!
+  componentDidMount(){
+  }
+
+  clearPattern = ()=>{
+    this.theState.preview = false;
+    this.theState.pattern = [null,null,null,null,null,null,null,null,null,null];
+    this.setState(this.theState)
+  }
+
+  previewPattern = ()=>{
+    this.theState.preview = !this.theState.preview;
+    this.theState.timelineSelect.bool = false;
+    this.setState(this.theState, function(){
+      if(this.state.preview){
+        this.uploadColorPattern(true);
+      }
+    })
+  }
+
+  uploadColorPattern = (fromPreview)=>{
+    console.log(fromPreview);
+    if(fromPreview){
+      this.fillEmptySpaces();       //the order of functions is : uploadColorPattern -> fillEmptySpaces -> buildColorString + fill -> patternToString + buildThreeDigits -> send!
+    }
+    else{
+      this.theState.preview = false;
+      this.setState(this.theState, function(){
+        this.fillEmptySpaces();
+      })
+    }
+  }
+
+  postData = (data) =>{
+    fetch('https://ps.pndsn.com/publish/pub-c-e868dd6e-aea2-4b32-9f05-b21bac0e6997/sub-c-cf99383a-7714-11e7-98e2-02ee2ddab7fe/0/theled/0', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((response)=>{
+      console.log(response);
+    })
   }
 
 
@@ -66,7 +122,6 @@ export default class App extends React.Component {
           }
         }
       }
-      console.log(prePatternFill);
       this.buildColorString(prePatternFill);                    // send the data to this function to convert its format to string
     }
   }
@@ -96,7 +151,12 @@ export default class App extends React.Component {
 
       }
     }
-    this.patternToString(red, green, blue);                //the values of the pattern have been split into red, green and blue arrays (each array should be the same length)
+    if(this.state.preview){
+      this.previewData(red,green,blue);
+    }
+    else{
+      this.patternToString(red, green, blue);                //the values of the pattern have been split into red, green and blue arrays (each array should be the same length)
+    }
   }
 
   normailzeFillColors = (red,green,blue)=>{
@@ -146,8 +206,7 @@ export default class App extends React.Component {
         patternString = threeDigits.red + " " + patternString;
       }
     }
-    console.log(patternString);
-    // window.publishUpdate(patternString);
+    this.postData(patternString);                           //this function sends the data to the chip!!
   }
 
 
@@ -205,41 +264,41 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
       }
     }
     newArray.push(colorTwo);                           // now that the middle values are computed, add the end value
-    console.log(newArray, "the inbetween stuff???");
     return newArray;
   }
 
-
-  theState = {
-    colorPicker: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
-    colorPicked : "hsl(0, 100%, 50%)",
-    pattern: [null,null,null,null,null,null,null,null,null,null],
-    timelineSelect:{
-      bool: false,
-      index: -1
+  previewData = (red, green, blue)=>{
+    let result = [];
+    for (var i = -1; i < red.length-1; i++) {
+      if(i==-1){
+        let color = "rgb("+red[red.length-1] + ", " + green[green.length-1] + ", " + blue[blue.length-1] + ")"  ;
+        result.push(color);
+      }
+      else{
+        let color = "rgb("+red[i] + ", " + green[i] + ", " + blue[i] + ")";
+        result.push(color);
+      }
     }
   }
 
+
   timelineSelectfunction = (index)=>{
-    this.theState.timelineSelect.bool = !this.theState.timelineSelect.bool;
+    this.theState.preview = false;
+    this.theState.timelineSelect.bool = true;
     this.theState.timelineSelect.index = index;
-    console.log(index);
     this.setState(this.theState);
   }
 
 
   pickingAColor = (e, color)=>{
+    this.theState.preview = false;
     this.theState.colorPicker = e;
     this.setState(this.theState);
     this.theState.colorPicked  = "hsl(" + Math.floor(this.theState.colorPicker).toString() + ", 100%, 50%)";
   }
 
   colorSelect = (currentColor)=>{
-    this.theState.timelineSelect.bool = !this.theState.timelineSelect.bool;
+    // this.theState.timelineSelect.bool = !this.theState.timelineSelect.bool;
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
     this.setState(this.theState);
   }
@@ -248,13 +307,15 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
   render() {
     return (
       <View style={styles.position}>
-        <Control upload={this.uploadColorPattern}>
+        <Image source={require('./images/backgroundtwo.jpg')} style={styles.image}/>
+        <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern}>
         </Control>
-
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
-
-        <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect}></ColorPicker>
+        <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect} pattern={this.state.pattern}></ColorPicker>
+        <Preview preview={this.state.preview}>
+        </Preview>
       </View>
+
     );
   }
 }
@@ -268,6 +329,17 @@ const styles = StyleSheet.create({
     'marginTop': '10%'
   },
   position: {
-    'position': 'relative'
+    'position': 'relative',
+    // 'backgroundColor': 'pink',
+    // height: '100%'
+  },
+  image:{
+    position: 'absolute',
+     top: 0,
+     bottom: 0,
+     left: 0,
+     right: 0,
+     width: '100%',
+     height: '120%'
   }
 });

@@ -32,14 +32,10 @@ var styles = StyleSheet.create({
     'left': '7%',
     'borderRadius': 15,
     'borderColor': 'black',
-    'borderWidth': 3,
-    // 'marginBottom': 100,
+    'borderWidth': 5,
     'height': 400,
-    'backgroundColor': 'yellow',
+    'backgroundColor': 'rgba(0, 0, 0, .5)',
     'width': 100
-    // 'flex': 1,
-    // 'justifyContent': 'center',
-    // 'backgroundColor': 'blue'
   }
 });
 
@@ -50,22 +46,6 @@ export default class Timeline extends Component {
     super(props);
     this.state = {click: "clicked"};
   }
-
-  postData = () =>{
-    console.log("hitting the beginning");
-    fetch('https://ps.pndsn.com/publish/pub-c-e868dd6e-aea2-4b32-9f05-b21bac0e6997/sub-c-cf99383a-7714-11e7-98e2-02ee2ddab7fe/0/theled/0', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify("0,0,0,255,255,255 ")
-    }).then((response)=>{
-      console.log(response);
-    })
-    console.log("hitting the end");
-  }
-
 
 
   render() {

@@ -18,12 +18,12 @@ export default class Control extends Component {
       'position': 'relative',
       'top': 30,
       'marginLeft': '5%',
-      'backgroundColor': 'rgba(0,0,0,.3)',
+      'backgroundColor': 'rgba(0,0,0,.5)',
       'borderRadius': 20,
-      'borderColor': 'green',
-      'borderWidth': 3,
+      'borderColor': 'black',
+      'borderWidth': 5,
       'width': '90%',
-      'height': 155,
+      'height': 160,
     },
     preview: {
       'position': 'absolute',
@@ -32,10 +32,10 @@ export default class Control extends Component {
       'marginLeft': '4%',
       // 'marginRight': '5%',
       'marginTop': 10,
-      'backgroundColor': 'blue',
+      'backgroundColor': "white",
       'borderRadius': 15,
       'borderColor': 'black',
-      'borderWidth': 3
+      'borderWidth': 5
     },
     clear: {
       'position': 'absolute',
@@ -44,10 +44,10 @@ export default class Control extends Component {
       'marginLeft': '52%',
       // 'marginRight': '5%',
       'marginTop': 10,
-      'backgroundColor': 'red',
+      'backgroundColor': 'white',
       'borderRadius': 15,
       'borderColor': 'black',
-      'borderWidth': 3,
+      'borderWidth': 5,
     },
     upload: {
       'position': 'absolute',
@@ -55,9 +55,16 @@ export default class Control extends Component {
       'height': 60,
       'marginLeft': '4%',
       'marginTop': 80,
+      'backgroundColor': 'white',
       'borderRadius': 15,
       'borderColor': 'black',
-      'borderWidth': 3
+      'borderWidth': 5,
+      'overflow': 'hidden'
+    },
+    text: {
+      'textAlign': 'center',
+      'fontSize': 30,
+      'marginTop': -3
     }
   });
 
@@ -70,26 +77,20 @@ export default class Control extends Component {
 
       return (
         <View style={this.styles.container}>
-          <TouchableHighlight style={this.styles.preview}>
-
-              <Text>
+          <TouchableHighlight style={this.styles.preview} onPress={() => this.props.preview() }>
+              <Text style={this.styles.text}>
                 preview
               </Text>
-
           </TouchableHighlight>
-          <TouchableHighlight style={this.styles.clear}>
-
-              <Text>
-                Select
+          <TouchableHighlight style={this.styles.clear} onPress={() => this.props.clear() }>
+              <Text style={this.styles.text}>
+                Clear
               </Text>
-
           </TouchableHighlight>
-          <TouchableHighlight style={this.styles.upload} onPress={() => this.props.upload() }>
-            <View>
-              <Text>
-                Select
+          <TouchableHighlight style={this.styles.upload}  onPress={() => this.props.upload(false) }>
+              <Text style={this.styles.text}>
+                Upload
               </Text>
-            </View>
           </TouchableHighlight>
         </View>
       );
