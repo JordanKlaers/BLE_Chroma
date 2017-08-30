@@ -18,9 +18,11 @@ export default class App extends React.Component {
       },
       colorPicked : "hsl(0, 100%, 50%)",
       pattern: [null,null,null,null,null,null,null,null,null,null],
+      sliderArray: [null,null,null,null,null,null,null,null,null,null],
+      liveSliderValue: 0,
       timelineSelect:{
         bool: false,
-        index: 0
+        index: -1
       },
       preview: false,
       previewData: [null,null,null,null,null,null,null,null,null,null]
@@ -35,13 +37,16 @@ export default class App extends React.Component {
     },
     colorPicked : "hsl(0, 100%, 50%)",
     pattern: [null,null,null,null,null,null,null,null,null,null],
+    sliderArray: [null,null,null,null,null,null,null,null,null,null],
+    liveSliderValue: 0,
     timelineSelect:{
       bool: false,
       index: -1
     },
     preview: false,
     previewData: [null,null,null,null,null,null,null,null,null,null]
-  }
+  };
+
 
   componentDidMount(){
   }
@@ -63,7 +68,6 @@ export default class App extends React.Component {
   }
 
   uploadColorPattern = (fromPreview)=>{
-    console.log(fromPreview);
     if(fromPreview){
       this.fillEmptySpaces();       //the order of functions is : uploadColorPattern -> fillEmptySpaces -> buildColorString + fill -> patternToString + buildThreeDigits -> send!
     }
@@ -283,21 +287,38 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
 
 
   timelineSelectfunction = (index)=>{
+    if(this.theState.pattern[index] != null){
+      this.theState.colorPicked = this.theState.pattern[index];
+    }
     this.theState.preview = false;
     this.theState.timelineSelect.bool = true;
     this.theState.timelineSelect.index = index;
+    if(this.theState.sliderArray[this.theState.timelineSelect.index] != null){
+      console.log("slider value of color picked",this.theState.sliderArray[this.theState.timelineSelect.index]);
+      this.theState.liveSliderValue = this.theState.sliderArray[this.theState.timelineSelect.index]
+    }
+    console.log("WHAT IS THIS", this.theState.liveSliderValue);
     this.setState(this.theState);
+    // this.pickingAColor(this.theState.liveSliderValue)
+    // this.colorSelect(this.theState.colorPicked)
   }
 
 
   pickingAColor = (e, color)=>{
+    console.log(e, "slider valueeeeee");
+    this.theState.liveSliderValue = e;
+    this.theState.sliderArray[this.state.timelineSelect.index] = e;
     this.theState.preview = false;
     this.theState.colorPicker = e;
-    this.setState(this.theState);
     this.theState.colorPicked  = "hsl(" + Math.floor(this.theState.colorPicker).toString() + ", 100%, 50%)";
+    this.setState(this.theState);
   }
 
   colorSelect = (currentColor)=>{
+    console.log("never moved the slider", this.theState.liveSliderValue);
+    console.log("never moved the slider (index saved)", this.theState.sliderArray[this.theState.timelineSelect.index]);
+    this.theState.sliderArray[this.theState.timelineSelect.index]  = this.theState.liveSliderValue;
+
     // this.theState.timelineSelect.bool = !this.theState.timelineSelect.bool;
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
     this.setState(this.theState);
@@ -311,7 +332,7 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
         <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern}>
         </Control>
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
-        <ColorPicker pickingAColor={this.pickingAColor} currentColor={this.theState.colorPicked} colorSelect={this.colorSelect} timelineSelect={this.state.timelineSelect} pattern={this.state.pattern}></ColorPicker>
+        <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state}></ColorPicker>
         <Preview preview={this.state.preview}>
         </Preview>
       </View>

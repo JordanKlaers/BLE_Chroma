@@ -72,25 +72,25 @@ export default class ColorPicker extends Component {
     // console.log(this.props.currentColor)
   }
   render() {
-    const {currentColor, timelineSelect, pattern} = this.props
+    const {timelineSelect, colorPicked, liveSliderValue} = this.props.fullState
     const dynamicStyle = {  'width': '86%',
       'height': '30%',
       'margin': '7%',
-      'backgroundColor': pattern[timelineSelect.index] || currentColor,
+      'backgroundColor': colorPicked,
       'borderRadius': 20,
       'borderColor': 'black',
       'borderWidth': 5}
 
-    if(this.props.timelineSelect.bool){
+    if(timelineSelect.bool){
       return (
         // <View>
         <View style={this.styles.box}>
           <View style={this.styles.display, dynamicStyle}>
           </View>
           <View style={this.styles.sliderContainer}>
-            <Slider maximumValue={360} thumbTintColor={'black'} style={this.styles.red} onValueChange={(e)=>this.props.pickingAColor(e)}></Slider>
+            <Slider maximumValue={360} thumbTintColor={'black'} style={this.styles.red} onValueChange={(e)=>this.props.pickingAColor(e)} value={liveSliderValue}></Slider>
           </View>
-          <TouchableHighlight onPress={() => this.props.colorSelect(currentColor) }>
+          <TouchableHighlight onPress={() => this.props.colorSelect(colorPicked) }>
             <View style={this.styles.select}>
               <Text style={this.styles.selectText}>
                 Select

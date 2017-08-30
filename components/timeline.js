@@ -49,7 +49,6 @@ export default class Timeline extends Component {
 
 
   render() {
-    console.log(this.props.colors);
     var dynamicStyle = {
       one: {'position': 'relative',
       'marginBottom': 64,
