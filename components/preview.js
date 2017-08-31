@@ -10,6 +10,7 @@ export default class Preview extends Component {
   state = {
     animateValue: new Animated.Value(0),  // Initial value for opacity: 0
   }
+  value = undefined;
   // state = {fadeAnim: new Animated.Value('rgb(255,255,255)')}
 
   constructor(props) {
@@ -30,17 +31,17 @@ export default class Preview extends Component {
     }
 
   loop = ()=>{
-    // console.log(this.props.preview.previewData, "props");
-    let data =this.props.getPatternForPreview()
+    let data = this.props.preview.previewData
+    // console.log(data, "data");
     let length = data.length
+    // console.log(length, "length");
     let inputArray = this.inputArrayFunction(data);
-    console.log(data);
-    console.log(inputArray);
-    console.log(data.length);
-    console.log(inputArray.length);
+    // console.log(inputArray, "inputArray");
+    setTimeout(()=>{this.theActualyLoop(data, length, inputArray)}, 500);
+  }
 
+  theActualyLoop = (data, length, inputArray)=>{
     this.state.animateValue = new Animated.Value(1);
-    console.log(this.state.animateValue);
     if(data[0] != null){
       Animated.loop(Animated.timing(                  // Animate over time
         this.state.animateValue,            // The animated value to drive
@@ -49,10 +50,15 @@ export default class Preview extends Component {
           duration: 8000,              // Make it take a while
         }
       )).start()
-      this.value = this.state.animateValue.interpolate({
-        inputRange: inputArray,
-        outputRange: data
-      })
+      if(length ==1){
+        this.value = data[0]
+      }
+      else{
+        this.value = this.state.animateValue.interpolate({
+          inputRange: inputArray,
+          outputRange: data
+        })
+      }
     }
   }
 
@@ -91,6 +97,7 @@ export default class Preview extends Component {
   //
   //   console.log("loaded")
   // }
+
   render() {
 
     const {currentColor, preview, previewData} = this.props.preview
@@ -114,8 +121,9 @@ export default class Preview extends Component {
     }
 
     if(preview){
-      console.log("something - preview");
+      console.log(this.props.preview.previewData, "PREVIEW DATA RENDER");
       this.loop();
+
       return (
         // <View>
         <View style={this.styles.box}>

@@ -61,18 +61,20 @@ export default class App extends React.Component {
   }
 
   previewPattern = ()=>{
-    this.theState.preview = !this.theState.preview;                 //toggle the preview component
+
+    console.log(this.state.pattern);
+    this.theState.preview = !this.theState.preview;
     this.theState.timelineSelect.bool = false;                    // closes the color selection
     this.setState(this.theState, function(){
-      if(this.state.preview){
+      // if(this.state.preview){
         this.uploadColorPattern(true);                              //if preview is true - run the functions that build the color data used for the preview
-      }
+      // }
     })
   }
 
   uploadColorPattern = (fromPreview)=>{
     if(fromPreview){
-      this.fillEmptySpaces();                 //if the fuctions were called for preview, this will result in an array of the patterns colors
+      this.fillEmptySpaces(fromPreview);                 //if the fuctions were called for preview, this will result in an array of the patterns colors
     }
     else{
       this.theState.preview = false;              //if these functions were called from upload - then different functions are ran to get it to the correct format for the hardware - also closes the preview while uploading
@@ -96,7 +98,7 @@ export default class App extends React.Component {
   }
 
 
-  fillEmptySpaces = ()=>{
+  fillEmptySpaces = (fromPreview)=>{
     let hasValues = false;
     let prePatternFill =[];                                   //this will hold objects of the color and interval till next for filling in the pattern
     for (var i = 0; i < this.state.pattern.length; i++) {     //this loops checks to see if any colors have been selected
@@ -129,11 +131,11 @@ export default class App extends React.Component {
           }
         }
       }
-      this.buildColorString(prePatternFill);                    // send the data to this function to convert its format to string
+      this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
     }
   }
 
-  buildColorString = (pattern)=>{
+  buildColorString = (pattern, fromPreview)=>{
     let red = [];
     let green =[];
     let blue = [];
@@ -158,7 +160,7 @@ export default class App extends React.Component {
 
       }
     }
-    if(this.state.preview){
+    if(fromPreview){
       this.previewData(red,green,blue);
     }
     else{
@@ -287,6 +289,7 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
       }
     }
     this.theState.previewData = result;
+                  //toggle the preview component
     this.setState(this.theState);
   }
 
@@ -315,12 +318,13 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
   }
 
   colorSelect = (currentColor)=>{
+
     this.theState.sliderArray[this.theState.timelineSelect.index]  = this.theState.liveSliderValue;
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
-    this.setState(this.theState);
-  }
-  getPatternForPreview = ()=>{
-    return this.state.previewData;
+
+    this.setState(this.theState, ()=>{
+
+    })
   }
 
   render() {
