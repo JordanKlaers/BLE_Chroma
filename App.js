@@ -11,13 +11,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      colorPicker: {
-        red: 0,
-        green: 0,
-        blue: 0
-      },
       colorPicked : "hsl(0, 100%, 50%)",
       pattern: [null,null,null,null,null,null,null,null,null,null],
+      previewPattern: [null,null,null,null,null,null,null,null,null,null],
       sliderArray: [null,null,null,null,null,null,null,null,null,null],
       liveSliderValue: 0,
       timelineSelect:{
@@ -25,19 +21,13 @@ export default class App extends React.Component {
         index: -1
       },
       preview: false,
-      opacity: 0,
-      previewData: [null,null,null,null,null,null,null,null,null,null]
     };
   }
 
   theState = {
-    colorPicker: {
-      red: 0,
-      green: 0,
-      blue: 0
-    },
     colorPicked : "hsl(0, 100%, 50%)",
     pattern: [null,null,null,null,null,null,null,null,null,null],
+    previewPattern: [null,null,null,null,null,null,null,null,null,null],
     sliderArray: [null,null,null,null,null,null,null,null,null,null],
     liveSliderValue: 0,
     timelineSelect:{
@@ -46,41 +36,25 @@ export default class App extends React.Component {
     },
     preview: false,
     opacity: 0,
-    previewData: [null,null,null,null,null,null,null,null,null,null]
   };
-
-
-  componentDidMount(){
-  }
 
   clearPattern = ()=>{
     this.theState.preview = false;                              // closes preview window as there is no pattern to preview
     this.theState.liveSliderValue = 0;                          // clears pattern so the slider is reset to 0
     this.theState.timelineSelect.bool = false;                  // closes the color selection box
+    this.theState.timelineSelect.index = 10;
+    this.theState.colorPicked = "hsl(0, 100%, 50%)",
     this.theState.sliderArray = [null,null,null,null,null,null,null,null,null,null];      //clears values
     this.theState.pattern = [null,null,null,null,null,null,null,null,null,null];          //clears values
-    this.theState.previewData  = [null,null,null,null,null,null,null,null,null,null];
     this.setState(this.theState)
   }
 
   previewPattern = ()=>{
-
-    console.log(this.state.pattern);
+    this.theState.timelineSelect.index = 10;
     this.theState.preview = !this.theState.preview;
-    // this.theState.preview = false
     this.theState.timelineSelect.bool = false;                    // closes the color selection
     this.setState(this.theState, function(){
-      // if(this.state.preview)
-      console.log("state set from preview pattern");
         this.uploadColorPattern(true);                              //if preview is true - run the functions that build the color data used for the preview
-      // // }
-      // this.theState.preview = false;
-      // this.theState.opacity = 0;
-      // this.setState(this.theState, function(){
-      //   this.theState.preview = true;
-      //   this.theState.opacity = 1;
-      //   this.setState(this.theState)
-      // })
     })
   }
 
@@ -143,12 +117,12 @@ export default class App extends React.Component {
           }
         }
       }
-      // console.log("should be true, passing into buildColorString", fromPreview);
       this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
     }
   }
 
   buildColorString = (pattern, fromPreview)=>{
+    // console.log("building to string function -------", pattern);
     let red = [];
     let green =[];
     let blue = [];
@@ -170,18 +144,45 @@ export default class App extends React.Component {
         red = red.concat(normalized.red);
         green = green.concat(normalized.green);
         blue = blue.concat(normalized.blue);
-
       }
     }
-    // console.log(fromPreview, "should be true");
-    if(fromPreview){
-      // console.log("about to call previewdata()");
-      this.previewData(red,green,blue);
-    }
-    else{
+    if(!fromPreview){
       this.patternToString(red, green, blue);                //the values of the pattern have been split into red, green and blue arrays (each array should be the same length)
     }
+    else {                                              // fill this.state.pattern - for the preview option
+      this.fillPatternForPreview(red,green,blue);
+    }
   }
+
+  fillPatternForPreview = (red,green,blue)=>{
+    let result = [];
+    for (var i = -1; i < red.length-1; i++) {
+      if(i==-1){
+        let color = "rgb("+red[red.length-1] + ", " + green[green.length-1] + ", " + blue[blue.length-1] + ")"  ;
+        result.push(color);
+      }
+      else{
+        let color = "rgb("+red[i] + ", " + green[i] + ", " + blue[i] + ")";
+        result.push(color);
+      }
+    }
+    this.theState.previewPattern = result;
+    this.setState(this.theState)
+}
+
+
+
+    //
+    // for (var i = 0; i < red.length; i++) {
+    //   let color = "rgb(" + red[i] + "," + green[i] + "," + blue[i] + ")";
+    //   color = tinycolor(color);
+    //   let HSLcolor = color.toHsl();
+    //   HSLcolor = "hsl(" + HSLcolor.h + ",100%,50%)"
+    //   result.push(HSLcolor);
+    // }
+    // this.theState.pattern = result;
+    // this.setState(this.theState);
+
 
   normailzeFillColors = (red,green,blue)=>{
     var normalized = {
@@ -194,7 +195,6 @@ export default class App extends React.Component {
     }
     else{
       for (var i = 0; i < red.length-1; i++) {
-
         let rgbFormat = "rgb(" + red[i] + ", " + green[i] + ", " + blue[i] + ")";
         rgbFormat = tinycolor(rgbFormat);
         let hslFormat = rgbFormat.toHsl();
@@ -216,7 +216,7 @@ export default class App extends React.Component {
   patternToString = (red, green, blue)=>{               //this function will take the red, green and blue arrays from buildColorString() -> converting the to 3 digit strings in order of r,g then b repeating
     let patternString = '';
     let threeDigits = {};
-    for (var i = 0; i < red.length; i++) {                  // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    for (var i = 0; i < red.length; i++) {
       if(i <= (red.length - 2)){                             // right here I should make sure all the colors values are 3 digits long
         threeDigits = this.buildThreeDigits(red[i], green[i], blue[i]);    //convert the values to 3 digit strings
         patternString = patternString + threeDigits.red + " ";
@@ -230,6 +230,7 @@ export default class App extends React.Component {
         patternString = threeDigits.red + " " + patternString;
       }
     }
+
     this.postData(patternString);                           //this function sends the data to the chip!!
   }
 
@@ -291,26 +292,6 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
     return newArray;
   }
 
-  previewData = (red, green, blue)=>{
-    let result = [];
-    for (var i = -1; i < red.length-1; i++) {
-      if(i==-1){
-        let color = "rgb("+red[red.length-1] + ", " + green[green.length-1] + ", " + blue[blue.length-1] + ")"  ;
-        result.push(color);
-      }
-      else{
-        let color = "rgb("+red[i] + ", " + green[i] + ", " + blue[i] + ")";
-        result.push(color);
-      }
-    }
-    // console.log("inside preview data function");
-    this.theState.previewData = result;
-    // this.theState.preview = true;              //toggle the preview component
-    this.setState(this.theState, function(){
-      console.log("state set from preview data function");
-    });
-  }
-
 
   timelineSelectfunction = (index)=>{
     if(this.theState.pattern[index] != null){                           //is the timeline dot choosen has a color, than apply that color to state- which is used by the color picked initially
@@ -330,51 +311,121 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
     this.theState.liveSliderValue = e;
     this.theState.sliderArray[this.state.timelineSelect.index] = e;
     this.theState.preview = false;
-    this.theState.colorPicker = e;
-    this.theState.colorPicked  = "hsl(" + Math.floor(this.theState.colorPicker).toString() + ", 100%, 50%)";
+    this.theState.liveSliderValue = e;
+    this.theState.colorPicked  = "hsl(" + Math.floor(this.theState.liveSliderValue).toString() + ", 100%, 50%)";
     this.setState(this.theState);
   }
 
   colorSelect = (currentColor)=>{
-
     this.theState.sliderArray[this.theState.timelineSelect.index]  = this.theState.liveSliderValue;
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
-
-    this.setState(this.theState, ()=>{
-
-    })
+    this.setState(this.theState, function(){
+      this.uploadColorPattern(true);
+      // this.previewHSLData()
+    });
   }
 
-  render() {
+  // previewHSLData = ()=>{
+  //   // console.log("in the function im working with??");
+  //   var hasValues = false;
+  //   let prePatternFill =[];                                   //this will hold objects of the color and interval till next for filling in the pattern
+  //   for (let j = 0; j < this.state.sliderArray.length; j++) {     //this loops checks to see if any colors have been selected
+  //     if(this.state.sliderArray[j] != null){
+  //       hasValues = true;                                     //if hasValues is false, let the user know there is nothing to upload
+  //     }
+  //   }
+  //   if(hasValues){
+  //     for (var i = 0; i < this.state.sliderArray.length; i++) {       //this loops runs through the array of colors choosen
+  //       if(this.state.sliderArray[i] != null){                        //if  a color has been picked at the index i - then we convert the color to rgb and move to the next loop to find how many empty vaues there are untill the next choosen color
+  //         let colorTillNextObj = {};
+  //         colorTillNextObj['h'] = this.state.sliderArray[i];
+  //         let findNext = true;
+  //         for (let j = i + 1; j < 10; j++) {                    //this loop finds the number of intervals untill the next color choosen (interval used later to fill in empty colors)
+  //           if (this.state.sliderArray[j] != null && findNext == true) {    //if there is a color choosen and (findnext is true when were still looknig for the next color in the array)
+  //             let next = j - i;                                         //saves the interval
+  //             colorTillNextObj['intervalTillNext'] = next;
+  //             findNext = false;                                       // find next is false because we found the next color
+  //             prePatternFill.push(colorTillNextObj);
+  //           }
+  //         }
+  //         if(findNext == true){                                     //if 'i' is on the last color, than the loop above would have never found the next color - so finding next would be true, which is an indicator of the end of the pattern
+  //           colorTillNextObj['intervalTillNext'] = "";              // intervalTillNext with an empty string as the value indicated its the last color in the pattern
+  //           prePatternFill.push(colorTillNextObj);
+  //         }
+  //       }
+  //     }
+  //     console.log(prePatternFill, "HALFWAY THROUGH MY WORK");
+  //     var HSLPatternData = []
+  //     for (var i = 0; i < prePatternFill.length; i++) {
+  //       if(prePatternFill[i]['intervalTillNext'] != ''){
+  //         HSLPatternData = HSLPatternData.concat(this.helper(prePatternFill[i].h,prePatternFill[i+1].h, prePatternFill[i].intervalTillNext))
+  //       }
+  //       else{
+  //         HSLPatternData = HSLPatternData.concat(this.helper(prePatternFill[i].h,prePatternFill[0].h, prePatternFill[i].intervalTillNext))
+  //       }
+  //     }
+  //     var result = []
+  //     console.log(HSLPatternData.length, "info????????");
+  //     for (var k = -1; k < HSLPatternData.length-1; k++) {
+  //       if(k==-1){
+  //         result.push("hsl("+HSLPatternData[HSLPatternData.length-1]+",100%,50%)")
+  //       }
+  //       else{
+  //         result.push("hsl("+HSLPatternData[k]+",100%,50%)")
+  //       }
+  //     }
+  //     console.log("THIS IS THE PAYLOAD!!!", result);
+  //     this.theState.previewPattern = result;
+  //     this.setState(this.theState)
+  //     // this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
+  //   }
+  // }
+  // helper = (value1, value2, interval)=>{
+  //   if(typeof(interval)=='string'){              //till next is an empty string when its the alst value in the pattern, otherwise its a number
+  //     interval = 1;
+  //   }
+  //   var diff = Math.abs(value1 - value2);                       // get the difference between the current color and the next color
+  //   var num = 1/interval;
+  //   let newArray = [];                                              //the first value we know- so we just need to fill the middle values
+  //   for (let i=0; i<interval-1; i++){                              // its tillnext - 1 because we dont need to fill the last value, we just need to fill whats between them
+  //     if(value1 > value2){
+  //       newArray.push(Math.floor(value1-(num*diff)*(i+1)));       //-(num*diff) takes the  starting color and outputs a new value based on how much it needs to change --an example: color1={r;255,g:0,b:0} secondColor={r:10,g:0,b:0} which has red decreasing
+  //     }                                                            // the *(i+1)  increases the value that it adds to the starting color
+  //     else if(value1 < value2){
+  //       newArray.push(Math.floor(value1+(num*diff)*(i+1)));       //--an example: color1={r;10,g:0,b:0} secondColor={r:255,g:0,b:0} which has red increasing
+  //     }
+  //     else if(value1 == value2){
+  //       newArray.push(value1);
+  //     }
+  //   }
+  //   newArray.push(value2);                           // now that the middle values are computed, add the end value
+  //   console.log(newArray, "ugh........");
+  //   return newArray;
+  //
+  // }
+  //
 
+
+  render() {
       return (
         <View style={styles.position}>
           <Image source={require('./images/backgroundtwo.jpg')} style={styles.image}/>
           <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern}>
           </Control>
-          <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
+          <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern} index={this.state.timelineSelect.index}></Timeline>
           <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state}></ColorPicker>
           <Preview preview={this.state} getPatternForPreview={this.getPatternForPreview} previewPatternFunction ={this.previewPattern}>
           </Preview>
         </View>
-
       );
     }
-
 }
 
 
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    'paddingVertical': 20,
-    // 'top': 100,
-    'marginTop': '10%'
-  },
   position: {
-    'position': 'relative',
-    // 'backgroundColor': 'pink',
-    // height: '100%'
+    'position': 'relative'
   },
   image:{
     position: 'absolute',

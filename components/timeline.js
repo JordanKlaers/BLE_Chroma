@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert} from 'react-native';
+import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ColorPicker from './colorPicker.js';
 
@@ -28,6 +28,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   container:{
+    'position': 'relative',
     'top': 70,
     'left': '7%',
     'borderRadius': 15,
@@ -49,7 +50,19 @@ export default class Timeline extends Component {
 
 
   render() {
+    var selectorTopArray = [29,157,285,413,541,669,797,925,1053,1181,-100];
+
+    var selectorTop = selectorTopArray[this.props.index] || -100;
     var dynamicStyle = {
+      signal: {
+        'position': 'absolute',
+        'top': selectorTop,              //dot 1 is 29 +64 i think [29,157,285,413,541,669,797,925,1053,1181]
+        'left': '8%',
+        'width': 140,
+        'height': 140,
+        'zIndex': 2,
+
+      },
       one: {'position': 'relative',
       'marginBottom': 64,
       // 'marginTop': '-315%',
@@ -195,6 +208,7 @@ export default class Timeline extends Component {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <View style={styles.line}>
           </View>
+          <Image source={require('../images/circle.png')} style={dynamicStyle.signal}/>
           <TouchableHighlight style={dynamicStyle.one} onPress={() => this.props.timelineSelectfunction(0) }>
             <View >
             </View>

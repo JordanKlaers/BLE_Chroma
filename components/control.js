@@ -52,7 +52,7 @@ export default class Control extends Component {
     upload: {
       'position': 'absolute',
       'width': '96%',
-      'height': 58,
+      'height': 56,
       'marginLeft': '2%',
       'marginTop': 80,
       'backgroundColor': 'white',
@@ -64,7 +64,7 @@ export default class Control extends Component {
     text: {
       'textAlign': 'center',
       'fontSize': 30,
-      'marginTop': -3
+      'marginTop': 0
     }
   });
 
