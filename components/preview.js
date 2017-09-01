@@ -15,12 +15,34 @@ export default class Preview extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      colorPicker: {
+        red: 0,
+        green: 0,
+        blue: 0
+      },
+      colorPicked : "hsl(0, 100%, 50%)",
+      pattern: [null,null,null,null,null,null,null,null,null,null],
+      sliderArray: [null,null,null,null,null,null,null,null,null,null],
+      liveSliderValue: 0,
+      timelineSelect:{
+        bool: false,
+        index: -1
+      },
+      preview: false,
+      opacity: 0,
+      previewData: [null,null,null,null,null,null,null,null,null,null]
+    };
+  }
+  componentWillReceiveProps(nextProps){
+    // console.log("about to get this info", nextProps);
+    this.setState(nextProps, function(){
+      // console.log(this.state.preview.pattern, "copied state into preview");
+      this.loop();
+    })
   }
 
-  componentDidMount() {
-    console.log("preview mounted");
-      this.loop();                        // Starts the animation
-    }
+
 
     inputArrayFunction = (data)=>{
       let result = [];
@@ -29,20 +51,29 @@ export default class Preview extends Component {
       }
       return result;
     }
+    removeNull=(pattern)=>{
+      var result = [];
+      for (var i = 0; i < pattern.length; i++) {
+        if(pattern[i] != null){
+          result.push(pattern[i])
+        }
+      }
+      return result;
+    }
 
   loop = ()=>{
-    let data = this.props.preview.previewData
-    // console.log(data, "data");
+    // var data = this.state.preview.pattern
+    var data = this.removeNull(this.state.preview.pattern)
+    console.log(data, "data");
     let length = data.length
-    // console.log(length, "length");
     let inputArray = this.inputArrayFunction(data);
-    // console.log(inputArray, "inputArray");
     setTimeout(()=>{this.theActualyLoop(data, length, inputArray)}, 500);
   }
 
   theActualyLoop = (data, length, inputArray)=>{
+    console.log("animation created");
     this.state.animateValue = new Animated.Value(1);
-    if(data[0] != null){
+    if(data[0] != null && data.length > 0){
       Animated.loop(Animated.timing(                  // Animate over time
         this.state.animateValue,            // The animated value to drive
         {
@@ -93,10 +124,7 @@ export default class Preview extends Component {
     }
   });
 
-  // componentDidMount(){
-  //
-  //   console.log("loaded")
-  // }
+
 
   render() {
 
@@ -114,15 +142,17 @@ export default class Preview extends Component {
         'height': '90%',
         'margin': '7%',
         'backgroundColor': this.value || "white",
-        // 'opacity': animateValue,
+        // 'opacity': 0,
         'borderRadius': 20,
         'borderColor': 'black',
-        'borderWidth': 5
+        'borderWidth': 5,
+        // 'visibility':'hidden'
     }
 
     if(preview){
-      console.log(this.props.preview.previewData, "PREVIEW DATA RENDER");
-      this.loop();
+      // console.log(this.props.preview.previewData, "PREVIEW DATA RENDER");
+      console.log("visiable");
+      // this.loop();
 
       return (
         // <View>
@@ -137,6 +167,7 @@ export default class Preview extends Component {
 
     }
     else{
+      console.log("NOT visiable");
       return null;
     }
   }

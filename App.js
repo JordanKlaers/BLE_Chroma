@@ -25,6 +25,7 @@ export default class App extends React.Component {
         index: -1
       },
       preview: false,
+      opacity: 0,
       previewData: [null,null,null,null,null,null,null,null,null,null]
     };
   }
@@ -44,6 +45,7 @@ export default class App extends React.Component {
       index: -1
     },
     preview: false,
+    opacity: 0,
     previewData: [null,null,null,null,null,null,null,null,null,null]
   };
 
@@ -57,6 +59,7 @@ export default class App extends React.Component {
     this.theState.timelineSelect.bool = false;                  // closes the color selection box
     this.theState.sliderArray = [null,null,null,null,null,null,null,null,null,null];      //clears values
     this.theState.pattern = [null,null,null,null,null,null,null,null,null,null];          //clears values
+    this.theState.previewData  = [null,null,null,null,null,null,null,null,null,null];
     this.setState(this.theState)
   }
 
@@ -64,11 +67,20 @@ export default class App extends React.Component {
 
     console.log(this.state.pattern);
     this.theState.preview = !this.theState.preview;
+    // this.theState.preview = false
     this.theState.timelineSelect.bool = false;                    // closes the color selection
     this.setState(this.theState, function(){
-      // if(this.state.preview){
+      // if(this.state.preview)
+      console.log("state set from preview pattern");
         this.uploadColorPattern(true);                              //if preview is true - run the functions that build the color data used for the preview
-      // }
+      // // }
+      // this.theState.preview = false;
+      // this.theState.opacity = 0;
+      // this.setState(this.theState, function(){
+      //   this.theState.preview = true;
+      //   this.theState.opacity = 1;
+      //   this.setState(this.theState)
+      // })
     })
   }
 
@@ -131,6 +143,7 @@ export default class App extends React.Component {
           }
         }
       }
+      // console.log("should be true, passing into buildColorString", fromPreview);
       this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
     }
   }
@@ -160,7 +173,9 @@ export default class App extends React.Component {
 
       }
     }
+    // console.log(fromPreview, "should be true");
     if(fromPreview){
+      // console.log("about to call previewdata()");
       this.previewData(red,green,blue);
     }
     else{
@@ -288,9 +303,12 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
         result.push(color);
       }
     }
+    // console.log("inside preview data function");
     this.theState.previewData = result;
-                  //toggle the preview component
-    this.setState(this.theState);
+    // this.theState.preview = true;              //toggle the preview component
+    this.setState(this.theState, function(){
+      console.log("state set from preview data function");
+    });
   }
 
 
@@ -336,7 +354,7 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
           </Control>
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern}></Timeline>
           <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state}></ColorPicker>
-          <Preview preview={this.state} getPatternForPreview={this.getPatternForPreview}>
+          <Preview preview={this.state} getPatternForPreview={this.getPatternForPreview} previewPatternFunction ={this.previewPattern}>
           </Preview>
         </View>
 
