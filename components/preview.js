@@ -35,9 +35,8 @@ export default class Preview extends Component {
     };
   }
   componentWillReceiveProps(nextProps){
-    // console.log("about to get this info", nextProps);
     this.setState(nextProps, function(){
-      // console.log(this.state.preview.pattern, "copied state into preview");
+      console.log("does this get triggered when i hit clear????");
       this.loop();
     })
   }
@@ -64,7 +63,7 @@ export default class Preview extends Component {
   loop = ()=>{
     // var data = this.state.preview.pattern
     var data = this.removeNull(this.state.preview.pattern)
-    console.log(data, "data");
+    console.log(data.length, "data");
     let length = data.length
     let inputArray = this.inputArrayFunction(data);
     setTimeout(()=>{this.theActualyLoop(data, length, inputArray)}, 500);
@@ -90,6 +89,9 @@ export default class Preview extends Component {
           outputRange: data
         })
       }
+    }
+    else {
+      this.value = "white"
     }
   }
 
