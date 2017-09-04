@@ -79,10 +79,10 @@ export default class Control extends Component {
         <View style={this.styles.container}>
           <TouchableHighlight style={this.styles.preview} onPress={() => this.props.preview() }>
               <Text style={this.styles.text}>
-                preview
+                Preview
               </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={this.styles.clear} onPress={() => this.props.clear() }>
+          <TouchableHighlight style={this.styles.clear} onPress={() => this.props.navigate('Control')/*this.props.clear()*/ }>
               <Text style={this.styles.text}>
                 Clear
               </Text>
