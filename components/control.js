@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert, Slider} from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
 
 
 
 
 export default class Control extends Component {
 
-
   constructor(props) {
     super(props);
-    this.state = {click: "clicked"};
   }
 
   styles = StyleSheet.create({
@@ -30,7 +27,6 @@ export default class Control extends Component {
       'width': '47%',
       'height': 56,
       'marginLeft': '2%',
-      // 'marginRight': '5%',
       'marginTop': 12,
       'backgroundColor': "white",
       'borderRadius': 15,
@@ -42,7 +38,6 @@ export default class Control extends Component {
       'width': '44%',
       'height': 56,
       'marginLeft': '52%',
-      // 'marginRight': '5%',
       'marginTop': 12,
       'backgroundColor': 'white',
       'borderRadius': 15,
@@ -68,9 +63,9 @@ export default class Control extends Component {
     }
   });
 
-  componentDidMount(){
-
-  }
+  static navigationOptions = {
+    header: null
+  };
 
 
   render() {
@@ -82,7 +77,7 @@ export default class Control extends Component {
                 Preview
               </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={this.styles.clear} onPress={() => this.props.navigate('Control')/*this.props.clear()*/ }>
+          <TouchableHighlight style={this.styles.clear} onPress={() => this.props.clear()}>
               <Text style={this.styles.text}>
                 Clear
               </Text>
@@ -94,7 +89,5 @@ export default class Control extends Component {
           </TouchableHighlight>
         </View>
       );
-
     }
-
 }

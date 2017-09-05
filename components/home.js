@@ -1,5 +1,4 @@
 import React from 'react';
-// import { StyleSheet, Text, View } from 'react-native';
 import { AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert, Image} from 'react-native';
 import Timeline from './timeline'
 import ColorPicker from './colorPicker.js';
@@ -43,10 +42,11 @@ export default class Home extends React.Component {
     this.theState.liveSliderValue = 0;                          // clears pattern so the slider is reset to 0
     this.theState.timelineSelect.bool = false;                  // closes the color selection box
     this.theState.timelineSelect.index = 10;
-    this.theState.colorPicked = "hsl(0, 100%, 50%)",
+    this.theState.colorPicked = "hsl(0, 100%, 50%)";
     this.theState.sliderArray = [null,null,null,null,null,null,null,null,null,null];      //clears values
-    this.theState.pattern = [null,null,null,null,null,null,null,null,null,null];          //clears values
-    this.setState(this.theState)
+    this.theState.pattern = [null,null,null,null,null,null,null,null,null,null];
+    this.theState.previewPattern = [null,null,null,null,null,null,null,null,null,null];      //clears values
+    this.setState(this.theState);
   }
 
   previewPattern = ()=>{
@@ -68,6 +68,21 @@ export default class Home extends React.Component {
         this.fillEmptySpaces();
       })
     }
+  }
+
+  sliderButtons = (direction)=>{
+    if(direction == "left"){
+      if(this.state.liveSliderValue > 4){
+        this.theState.liveSliderValue = this.state.liveSliderValue - 4
+      }
+    }
+    else if(direction == "right"){
+      if(this.state.liveSliderValue < 356){
+        this.theState.liveSliderValue = this.state.liveSliderValue + 4
+      }
+    }
+    this.theState.colorPicked  = "hsl(" + Math.floor(this.theState.liveSliderValue).toString() + ", 100%, 50%)";
+    this.setState(this.theState)
   }
 
   postData = (data) =>{
@@ -93,7 +108,6 @@ export default class Home extends React.Component {
       }
     }
 
-    hasValues? console.log('the pattern has some values') : console.log("no values!!!");
     if(hasValues){
       for (var i = 0; i < this.state.pattern.length; i++) {       //this loops runs through the array of colors choosen
         if(this.state.pattern[i] != null){                        //if  a color has been picked at the index i - then we convert the color to rgb and move to the next loop to find how many empty vaues there are untill the next choosen color
@@ -119,10 +133,12 @@ export default class Home extends React.Component {
       }
       this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
     }
+    else{
+      this.postData("000 000 000 ");
+    }
   }
 
   buildColorString = (pattern, fromPreview)=>{
-    // console.log("building to string function -------", pattern);
     let red = [];
     let green =[];
     let blue = [];
@@ -167,21 +183,8 @@ export default class Home extends React.Component {
       }
     }
     this.theState.previewPattern = result;
-    this.setState(this.theState)
-}
-
-
-
-    //
-    // for (var i = 0; i < red.length; i++) {
-    //   let color = "rgb(" + red[i] + "," + green[i] + "," + blue[i] + ")";
-    //   color = tinycolor(color);
-    //   let HSLcolor = color.toHsl();
-    //   HSLcolor = "hsl(" + HSLcolor.h + ",100%,50%)"
-    //   result.push(HSLcolor);
-    // }
-    // this.theState.pattern = result;
-    // this.setState(this.theState);
+    this.setState(this.theState);
+  }
 
 
   normailzeFillColors = (red,green,blue)=>{
@@ -189,7 +192,7 @@ export default class Home extends React.Component {
       red: red,
       green: green,
       blue: blue
-    };
+    }
     if(red.length == 1){
       return normalized;
     }
@@ -198,15 +201,15 @@ export default class Home extends React.Component {
         let rgbFormat = "rgb(" + red[i] + ", " + green[i] + ", " + blue[i] + ")";
         rgbFormat = tinycolor(rgbFormat);
         let hslFormat = rgbFormat.toHsl();
-        delete hslFormat.a
+        delete hslFormat.a;
         hslFormat.s = 1;
         hslFormat.l = 0.5;
         hslFormat = tinycolor(hslFormat);
-        rgbFormat = hslFormat.toRgb()
+        rgbFormat = hslFormat.toRgb();
         delete rgbFormat.a;
-        normalized.red[i] = rgbFormat.r
-        normalized.green[i] = rgbFormat.g
-        normalized.blue[i] = rgbFormat.b
+        normalized.red[i] = rgbFormat.r;
+        normalized.green[i] = rgbFormat.g;
+        normalized.blue[i] = rgbFormat.b;
       }
     }
     return normalized;
@@ -230,13 +233,8 @@ export default class Home extends React.Component {
         patternString = threeDigits.red + " " + patternString;
       }
     }
-
     this.postData(patternString);                           //this function sends the data to the chip!!
   }
-
-
-
-
 
   buildThreeDigits = (red, green, blue)=>{                  // this function takes the red, green and blue values checks their current length, and append 0's to the beginning to make its length 3 digits
   red = red.toString();
@@ -267,8 +265,6 @@ export default class Home extends React.Component {
   };
   return obj;
 }
-
-
 
 fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw value of R|G|B and the intervalTillNext
     if(typeof(tillNext)=='string'){              //till next is an empty string when its the alst value in the pattern, otherwise its a number
@@ -321,7 +317,6 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
     this.theState.pattern[this.theState.timelineSelect.index] = currentColor;
     this.setState(this.theState, function(){
       this.uploadColorPattern(true);
-      // this.previewHSLData()
     });
   }
   static navigationOptions = {
@@ -329,21 +324,19 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
   };
 
   render() {
-    // console.log(this.props);
       return (
         <View style={styles.position}>
           <Image source={require('../images/backgroundtwo.jpg')} style={styles.image}/>
           <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern} navigate={this.props.navigation.navigate}>
           </Control>
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern} index={this.state.timelineSelect.index}></Timeline>
-          <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state}></ColorPicker>
+          <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state} sliderButtons={this.sliderButtons}></ColorPicker>
           <Preview preview={this.state} getPatternForPreview={this.getPatternForPreview} previewPatternFunction ={this.previewPattern}>
           </Preview>
         </View>
       );
     }
 }
-
 
 
 const styles = StyleSheet.create({

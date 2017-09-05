@@ -7,15 +7,11 @@ import ColorPicker from './colorPicker.js';
 var styles = StyleSheet.create({
   line: {
     'position': 'relative',
-    // 'left': '10%',
     'top': 10,
     'marginLeft': '47%',
     'marginTop': '30%',
-    // 'marginBottom': '15%',
     'width': 0,
     "height": '92%',
-    // 'height': 1200,
-    // 'backgroundColor': 'black',
     'borderRadius': 3,
     'borderColor': 'black',
     'borderWidth': 3
@@ -51,34 +47,32 @@ export default class Timeline extends Component {
 
   render() {
     var selectorTopArray = [29,157,285,413,541,669,797,925,1053,1181,-100];
-
     var selectorTop = selectorTopArray[this.props.index] || -100;
     var dynamicStyle = {
       signal: {
         'position': 'absolute',
-        'top': selectorTop,              //dot 1 is 29 +64 i think [29,157,285,413,541,669,797,925,1053,1181]
+        'top': selectorTop,
         'left': '8%',
         'width': 140,
         'height': 140,
         'zIndex': 2,
-
       },
-      one: {'position': 'relative',
-      'marginBottom': 64,
-      // 'marginTop': '-315%',
-      'top': -1200,
-      'left': '15%',
-      'width': 64,
-      'height': 64,
-      'backgroundColor': this.props.colors[0] || "white",
-      "borderRadius": 32,
-      'borderColor': 'black',
-      'borderWidth': 3,
-      'zIndex': 3},
+      one: {
+        'position': 'relative',
+        'marginBottom': 64,
+        'top': -1200,
+        'left': '15%',
+        'width': 64,
+        'height': 64,
+        'backgroundColor': this.props.colors[0] || "white",
+        "borderRadius": 32,
+        'borderColor': 'black',
+        'borderWidth': 3,
+        'zIndex': 3
+      },
       two: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '-50%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -92,7 +86,6 @@ export default class Timeline extends Component {
       three: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '-40%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -106,7 +99,6 @@ export default class Timeline extends Component {
       four: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '-30%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -120,7 +112,6 @@ export default class Timeline extends Component {
       five: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '-20%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -134,7 +125,6 @@ export default class Timeline extends Component {
       six: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '-10%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -148,7 +138,6 @@ export default class Timeline extends Component {
       seven: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '0%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -162,7 +151,6 @@ export default class Timeline extends Component {
       eight: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '10%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -176,7 +164,6 @@ export default class Timeline extends Component {
       nine: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '20%',
         'top': -1200,
         'left': '15%',
         'width': 64,
@@ -190,7 +177,6 @@ export default class Timeline extends Component {
       ten: {
         'position': 'relative',
         'marginBottom': 64,
-        // 'top': '30%',
         'top': -1200,
         'left': '15%',
         'width': 64,

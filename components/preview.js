@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import {Animated, AppRegistry, Text, View, StyleSheet, Flatlist, ScrollView, TouchableHighlight, Alert, Slider} from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-
-
 
 
 export default class Preview extends Component {
@@ -30,8 +27,6 @@ export default class Preview extends Component {
     })
   }
 
-
-
   inputArrayFunction = (data)=>{
     let result = [];
     for (var i = 1; i <= data.length; i++) {
@@ -44,7 +39,7 @@ export default class Preview extends Component {
     var result = [];
     for (var i = 0; i < pattern.length; i++) {
       if(pattern[i] != null){
-        result.push(pattern[i])
+        result.push(pattern[i]);
       }
     }
     return result;
@@ -53,11 +48,9 @@ export default class Preview extends Component {
   loop = ()=>{
     var data = this.removeNull(this.state.preview.previewPattern);
     if(data[0]){
-      data.push(data[0])
+      data.push(data[0]);
     }
-    // console.log(data, "data");
     let length = data.length;
-    // console.log(length);
     let inputArray = this.inputArrayFunction(data);
     let time = 1+(length * 1000) -1000;
     setTimeout(()=>{this.theActualLoop(data, length, inputArray, time)}, 500);
@@ -139,9 +132,7 @@ export default class Preview extends Component {
             <Animated.View style={AnimateStyle}>
             </Animated.View>
         </View>
-        // </View>
       );
-
     }
     else{
       return null;
