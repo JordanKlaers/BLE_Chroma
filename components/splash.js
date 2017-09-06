@@ -243,7 +243,6 @@ const styles = StyleSheet.create({
     'textAlign': 'center',
     'fontSize': 40,
     'marginTop': 0,
-    // 'fontWeight': 'bold'
   },
   textHelpWindow: {
     'fontSize': 20

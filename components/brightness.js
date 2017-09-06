@@ -75,7 +75,6 @@ export default class Brightness extends Component {
       'width': 60,
       'marginLeft': '7%',
       'marginRight': '7%',
-
       'borderRadius': 32,
       'borderColor': 'black',
       'borderWidth': 5

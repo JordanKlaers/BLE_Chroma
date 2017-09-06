@@ -46,7 +46,7 @@ export default class Control extends Component {
     },
     upload: {
       'position': 'absolute',
-      'width': '44%',
+      'width': '47%',
       'height': 56,
       'marginLeft': '2%',
       'marginTop': 80,
