@@ -1,7 +1,7 @@
 {
-  "name": "secondReactApp",
+  "name": "Chroma Crown",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "react-native-scripts": "1.1.0",
     "jest-expo": "~19.0.0",

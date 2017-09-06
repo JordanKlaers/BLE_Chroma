@@ -326,7 +326,7 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
   render() {
       return (
         <View style={styles.position}>
-          <Image source={require('../images/backgroundtwo.jpg')} style={styles.image}/>
+          <Image source={require('../images/more.jpg')} style={styles.image}/>
           <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern} navigate={this.props.navigation.navigate}>
           </Control>
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern} index={this.state.timelineSelect.index}></Timeline>
