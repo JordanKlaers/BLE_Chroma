@@ -119,7 +119,7 @@ export default class Home extends React.Component {
       'borderWidth': 5,
     }
     const scroll ={
-      'height': 840,
+      'height': 900,
       'padding': 10
     }
       return (
@@ -168,6 +168,9 @@ export default class Home extends React.Component {
                 </Text>
                 <Text>
                   - Tap the upload button at the top, to send your current pattern to the LEDs.
+                </Text>
+                <Text>
+                  - Tap the brightness button to open the brightness control panel. Use the slider or buttons to select a brightness percentage. Tap Load to update the brightness level of the LED's.
                 </Text>
                 <Text>
 
