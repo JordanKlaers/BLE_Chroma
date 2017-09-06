@@ -66,6 +66,7 @@ export default class Home extends React.Component {
   }
 
   brightnessToggle = ()=>{
+    this.theState.preview = false;
     this.theState.timelineSelect.index = 10;
     this.theState.timelineSelect.bool = false;
     this.theState.brightnessView = !this.theState.brightnessView;
@@ -187,9 +188,9 @@ export default class Home extends React.Component {
       }
       this.buildColorString(prePatternFill, fromPreview);                    // send the data to this function to convert its format to string
     }
-    else{
-      this.postData("000 000 000 ");
-    }
+    // else{
+    //   this.postData("000 000 000 ");
+    // }
   }
 
   buildColorString = (pattern, fromPreview)=>{
