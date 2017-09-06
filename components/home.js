@@ -4,6 +4,7 @@ import Timeline from './timeline'
 import ColorPicker from './colorPicker.js';
 import Control from './control.js';
 import Preview from './preview.js';
+import Brightness from './brightness.js';
 var tinycolor = require('../tinycolor.js');
 
 export default class Home extends React.Component {
@@ -20,6 +21,8 @@ export default class Home extends React.Component {
         index: -1
       },
       preview: false,
+      brightnessView: false,
+      brightnessValue: 100
     };
   }
 
@@ -35,9 +38,12 @@ export default class Home extends React.Component {
     },
     preview: false,
     opacity: 0,
+    brightnessView: true,
+    brightnessValue: 100
   };
 
   clearPattern = ()=>{
+    this.theState.brightnessView = false;
     this.theState.preview = false;                              // closes preview window as there is no pattern to preview
     this.theState.liveSliderValue = 0;                          // clears pattern so the slider is reset to 0
     this.theState.timelineSelect.bool = false;                  // closes the color selection box
@@ -50,6 +56,7 @@ export default class Home extends React.Component {
   }
 
   previewPattern = ()=>{
+    this.theState.brightnessView = false;
     this.theState.timelineSelect.index = 10;
     this.theState.preview = !this.theState.preview;
     this.theState.timelineSelect.bool = false;                    // closes the color selection
@@ -58,16 +65,63 @@ export default class Home extends React.Component {
     })
   }
 
+  brightnessToggle = ()=>{
+    this.theState.timelineSelect.index = 10;
+    this.theState.timelineSelect.bool = false;
+    this.theState.brightnessView = !this.theState.brightnessView;
+    this.setState(this.theState, function(){
+      // console.log(this.state);
+    });
+
+  }
+
+  brightnessSliderChange = (value)=>{
+    this.theState.brightnessValue = value;
+    this.setState(this.theState);
+  }
+
   uploadColorPattern = (fromPreview)=>{
     if(fromPreview){
       this.fillEmptySpaces(fromPreview);                 //if the fuctions were called for preview, this will result in an array of the patterns colors
     }
     else{
+      this.theState.timelineSelect.index = 10;
+      this.theState.timelineSelect.bool = false;
+      this.theState.brightnessView = true;
       this.theState.preview = false;              //if these functions were called from upload - then different functions are ran to get it to the correct format for the hardware - also closes the preview while uploading
       this.setState(this.theState, function(){
         this.fillEmptySpaces();
       })
     }
+  }
+
+  brightnessButtons = (direction)=>{
+    console.log("brightness", direction);
+    if(direction == "left"){
+      if(this.state.brightnessValue > 2){
+        this.theState.brightnessValue = this.state.brightnessValue - 2;
+      }
+    }
+    else if(direction == "right"){
+      if(this.state.brightnessValue < 98){
+        this.theState.brightnessValue = this.state.brightnessValue + 2;
+      }
+    }
+
+    this.setState(this.theState)
+  }
+
+  uploadBrightness = (data) =>{
+    fetch('https://ps.pndsn.com/publish/pub-c-e868dd6e-aea2-4b32-9f05-b21bac0e6997/sub-c-cf99383a-7714-11e7-98e2-02ee2ddab7fe/0/brightness/0', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((response)=>{
+      console.log(response);
+    })
   }
 
   sliderButtons = (direction)=>{
@@ -293,6 +347,7 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
     if(this.theState.pattern[index] != null){                           //is the timeline dot choosen has a color, than apply that color to state- which is used by the color picked initially
       this.theState.colorPicked = this.theState.pattern[index];
     }
+    this.theState.brightnessView = false;
     this.theState.preview = false;
     this.theState.timelineSelect.bool = true;
     this.theState.timelineSelect.index = index;
@@ -327,9 +382,10 @@ fill =(colorOne, colorTwo, tillNext)=>{          //this function expect the raw 
       return (
         <View style={styles.position}>
           <Image source={require('../images/more.jpg')} style={styles.image}/>
-          <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern} navigate={this.props.navigation.navigate}>
+          <Control upload={this.uploadColorPattern} clear={this.clearPattern} preview={this.previewPattern} navigate={this.props.navigation.navigate} brightnessToggle={this.brightnessToggle}>
           </Control>
           <Timeline timelineSelectfunction={this.timelineSelectfunction} colors={this.state.pattern} index={this.state.timelineSelect.index}></Timeline>
+          <Brightness uploadBrightness={this.uploadBrightness} brightnessButtons={this.brightnessButtons} brightnessView={this.state.brightnessView} brightnessSliderChange={this.brightnessSliderChange} value={this.state.brightnessValue}></Brightness>
           <ColorPicker pickingAColor={this.pickingAColor} colorSelect={this.colorSelect} fullState={this.state} sliderButtons={this.sliderButtons}></ColorPicker>
           <Preview preview={this.state} getPatternForPreview={this.getPatternForPreview} previewPatternFunction ={this.previewPattern}>
           </Preview>
