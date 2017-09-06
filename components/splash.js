@@ -242,7 +242,8 @@ const styles = StyleSheet.create({
   text: {
     'textAlign': 'center',
     'fontSize': 40,
-    'marginTop': 0
+    'marginTop': 0,
+    // 'fontWeight': 'bold'
   },
   textHelpWindow: {
     'fontSize': 20
@@ -254,12 +255,14 @@ const styles = StyleSheet.create({
   textHelp: {
     'textAlign': 'center',
     'fontSize': 25,
-    'marginTop': 3
+    'marginTop': 3,
+    // 'fontWeight': 'bold'
   },
   textContinue: {
     'textAlign': 'center',
     'fontSize': 30,
-    'marginTop': 0
+    'marginTop': 0,
+    // 'fontWeight': 'bold'
   },
   upload: {
     'position': 'absolute',

@@ -46,7 +46,7 @@ export default class Control extends Component {
     },
     upload: {
       'position': 'absolute',
-      'width': '96%',
+      'width': '44%',
       'height': 56,
       'marginLeft': '2%',
       'marginTop': 80,
@@ -56,10 +56,23 @@ export default class Control extends Component {
       'borderWidth': 5,
       'overflow': 'hidden'
     },
+    brightness: {
+      'position': 'absolute',
+      'width': '44%',
+      'height': 56,
+      'marginLeft': '52%',
+      'marginTop': 80,
+      'backgroundColor': 'white',
+      'borderRadius': 15,
+      'borderColor': 'black',
+      'borderWidth': 5,
+      'overflow': 'hidden'
+    },
     text: {
       'textAlign': 'center',
-      'fontSize': 30,
-      'marginTop': 0
+      'fontSize': 20,
+      'marginTop': 10,
+      // 'fontWeight': 'bold'
     }
   });
 
@@ -85,6 +98,11 @@ export default class Control extends Component {
           <TouchableHighlight style={this.styles.upload}  onPress={() => this.props.upload(false) }>
               <Text style={this.styles.text}>
                 Upload
+              </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={this.styles.brightness}  onPress={() => this.props.brightnessToggle() }>
+              <Text style={this.styles.text}>
+                Brightness
               </Text>
           </TouchableHighlight>
         </View>
